@@ -36,13 +36,13 @@ main2 [set,start] =
     Nothing -> error "can not finds slides"
 
 slides :: [(String,[Slide ()])]
-slides = 
+slides =
     [("ifl14",[Utils.titleSlide $ TitleSlideEnv
    			{ titleTitle    = fontSize 50 $ "Blank Canvas and the remote-monad design pattern"
 				, titleSubTitle = fontSize 36 $ "A Foreign Function Interface to the JavaScript Canvas API"
 				, titleAuthors  = b "Andrew Gill" <> ", Aleksander Eskilson, Ryan Scott, James Stanton"
 				, titleDate     = "August 25" <> super "th" <+> "2014"
 				}
-        ]
+        ] ++ Benchmarks.slides
      )
     ]
