@@ -2,3 +2,4 @@
 dist/
 .story-board-memo
 cabal.*
+.cache/
