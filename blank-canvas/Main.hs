@@ -8,6 +8,7 @@ import Graphics.Storyboard
 
 import Utils
 import qualified Benchmarks
+import qualified BlankCanvas
 
 {-
 
@@ -43,6 +44,8 @@ slides =
 				, titleAuthors  = b "Andrew Gill" <> ", Aleksander Eskilson, Ryan Scott, James Stanton"
 				, titleDate     = "August 25" <> super "th" <+> "2014"
 				}
-        ] ++ Benchmarks.slides
+        ]
+          ++ BlankCanvas.slides
+          ++ Benchmarks.slides
      )
     ]
