@@ -55,27 +55,6 @@ slides =
 
       return ()
 
- , do SB.align SB.center $ SB.p $ "Relative Performance of Blank Canvas"
-
-      denv <- liftIO $ defaultEnv bitmapAlignmentFns (800/1) (600/1)
-
-      let theData = take 6 $ cycle
-             [[1,1.69,2.36,3.58,15.47]
-             ,[1,1.31,2.84,1.49,5.22]
-             ,[1,1.42,4.09,2.27,5.38]
-             ,[1,1.20,2.77,1.50,3.93]
-             ,[1,3.00,20.75,6.49,24.93]
-             ,[1,9.81,7.34,2.84,8.67]
-             ]
-
-      let barTitles = ["Control"] ++ [x ++ " " ++ y | x <- ["F/fox","Chrome"], y <- ["Linux","OSX"]]
-      let alabels = [ "Bezier", "CirclesRandomSize", "CirclesUniformSize","FillText", "StaticAsteroids", "Image" ]
-
-      let t = renderableToTile denv $ chart theData barTitles alabels
-
-      SB.place SB.top (SB.nudge SB.top SB.center t)
-
-      return ()
  ]
 
 dig :: Diagram B R2
@@ -154,7 +133,7 @@ cmpBenchmarks cacheName tests = do
 
     liftIO $ print res
 
-    denv <- liftIO $ defaultEnv bitmapAlignmentFns (800/1) (600/1)
+    denv <- liftIO $ defaultEnv bitmapAlignmentFns (800/1) (500/1)
 
     let subTests = [ os ++ "-" ++ br :: String | os <- ["Linux","OSX"], br <- ["Firefox","Chrome"]]
 
@@ -180,4 +159,4 @@ cmpBenchmarks cacheName tests = do
     let barTitles = ["Control"] ++ subTests
 
 --    SB.cacheTile cacheName
-    return $ renderableToTile denv $ chart theData barTitles tests
+    return $ SB.box SB.defaultBoxStyle $ renderableToTile denv $ chart theData barTitles tests

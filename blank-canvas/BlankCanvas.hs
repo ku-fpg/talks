@@ -1,6 +1,8 @@
 {-# LANGUAGE OverloadedStrings, FlexibleContexts, GADTs, ScopedTypeVariables #-}
 module BlankCanvas where
 
+import Control.Monad.IO.Class (liftIO)
+
 import Data.Monoid
 import Graphics.Storyboard
 import Graphics.Storyboard.Diagrams()
@@ -113,4 +115,61 @@ slides =
 
     place bottom $ t2
 
-    ]
+ , title "Types in blank-canvas" $ fontSize 24 $ do
+
+    txt <- liftIO $ readFile "blank-canvas/CodeFragments.hs"
+    fontSize 28 $ codeBox hs $ take 13 $ drop 0 $ lines $ txt
+
+ , title "Flow of Types" $ fontSize 32 $ do
+
+    fontSize 40 $ leftMargin 100 $ rightMargin 100 $ frame $ align center $ p $ q "send ::  Context -> Canvas a -> IO a"
+
+    vspace 25
+
+    ul $ do
+      li $ "Drawings are constructed using the" <+> q "Canvas" <+> "monad"
+      li $ q"send" <+>"pushes a" <+> q"Canvas" <+> "drawing to the screen"
+      li $ "No way to get from inside the" <+> q "Canvas" <+> "monad to the" <+> q "IO" <+> "monad"
+      li $ "Hence, programs are written in" <+> q "IO" <> ", with islands of" <+> q"Canvas" <+> "drawing rendered via send  "
+      li $ q "Canvas" <+> "results are returned to" <+> q "IO" <+> "via send."
+
+ , title "Example of Javascript to Haskell Transliteration" $ fontSize 24 $ do
+
+--    let hdr = background lg . td .align center . b . p
+--    let dat = td . align left . leftMargin 5 . rightMargin 5 . p
+
+    t1 <- tileOfSlide (400,0) $ codeBox' verb "JavaScript"
+      ["context.moveTo(100, 150);"
+      ,"context.lineTo(450, 50);"
+      ,"context.stroke();"
+      ]
+
+    t2 <- tileOfSlide (400,0) $ codeBox' verb "Haskell"
+      ["send context $ do"
+      ,"  moveTo(100, 150)"
+      ,"  lineTo(450, 50)"
+      ,"  stroke()"
+      ]
+
+
+    t3 <- tileOfSlide (600,0) $ codeBox' verb "Types in blank-canvas"
+      ["moveTo :: (Double,Double) -> Canvas ()"
+      ,"lineTo :: (Double,Double) -> Canvas ()"
+      ,"stroke :: ()              -> Canvas ()"
+      ,""
+      ,"send   :: Context -> Canvas a -> IO a"
+      ]
+
+    place top $ row [blank(0,0),t1,t2,blank(0,0)]
+
+    vspace 20
+
+    place top $ row [blank(0,0),t3,blank(0,0)]
+
+    --let p1 = fontSize 24 $ codeBox hs $
+ , title "Supported Canvas Commands" $ fontSize 24 $ do
+
+    t <- scaledImageTile "blank-canvas/images/HTML5_Canvas_Cheat_Sheet.png" 0.6
+
+    place top $ nudge top center $ box defaultBoxStyle $ t
+ ]

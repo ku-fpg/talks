@@ -143,6 +143,21 @@ codeBox cb txt = do
             $ txt
   vspace 10
 
+codeBox' :: CodeBox -> Prose -> [String] -> Slide ()
+codeBox' cb t txt = do
+  lg <- cb_bg cb
+  vspace 10
+  font "Courier New" $ trueSpace $ table
+      [ tr [ background lg $ td $ b $ margin 5 $ p $ t]
+      , tr [ td $ margin 5
+                $ p
+                $ highlight (cb_highlight cb)
+                $ unlines
+                $ txt
+        ]
+      ]
+  vspace 10
+
 
 twocol :: Slide () -> Double -> Slide () -> Double -> Slide ()
 twocol col1 w1 col2 w2 = do
