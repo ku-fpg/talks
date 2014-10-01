@@ -33,16 +33,16 @@ main2 [] = main2 ["ifl14","0"]
 main2 [set] = main2 [set,"0"]
 main2 [set,start] =
     case lookup set slides of
-    Just sts -> storyBoard 3000 { snapShot = Nothing } $ drop (read start) $ sts
+    Just sts -> storyBoard 3001 { snapShot = Nothing } $ drop (read start) $ sts
     Nothing -> error "can not finds slides"
 
 slides :: [(String,[Slide ()])]
 slides =
     [("ifl14",[Utils.titleSlide $ TitleSlideEnv
-   			{ titleTitle    = fontSize 50 $ "Blank Canvas and the remote-monad design pattern"
+   			{ titleTitle    = fontSize 50 $ "Blank Canvas and the\nRemote-Monad Design Pattern"
 				, titleSubTitle = fontSize 36 $ "A Foreign Function Interface to the JavaScript Canvas API"
 				, titleAuthors  = b "Andrew Gill" <> ", Aleksander Eskilson, Ryan Scott, James Stanton"
-				, titleDate     = "August 25" <> super "th" <+> "2014"
+				, titleDate     = "October 1" <> super "st" <+> "2014"
 				}
         ]
           ++ BlankCanvas.slides

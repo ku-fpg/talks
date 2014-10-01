@@ -21,6 +21,8 @@ import Graphics.Storyboard (Slide)
 
 import Graphics.Storyboard.Diagrams()
 
+import Utils
+
 importResults :: IO [(String,String,Double)]
 importResults = fmap concat $ do
    sequence [ do Right (_,vs :: V.Vector DataPoint) <- fmap decodeByName
@@ -35,7 +37,7 @@ importResults = fmap concat $ do
 
 slides :: [Slide ()]
 slides =
- [ do SB.align SB.center $ SB.p $ "Relative Performance of Blank Canvas"
+ [ title "Performance of Blank Canvas" $ SB.fontSize 24 $ do
 
       t <- cmpBenchmarks ".cache/display.png" [ "Bezier", "CirclesRandomSize", "CirclesUniformSize","FillText", "StaticAsteroids", "Image" ]
 
@@ -45,7 +47,7 @@ slides =
 
       return ()
 
- , do SB.align SB.center $ SB.p $ "Relative Performance of Blank Canvas"
+ , title "Performance of Blank Canvas (2)" $ SB.fontSize 24 $ do
 
       t <- cmpBenchmarks ".cache/query.png" [ "IsPointInPath", "MeasureText", "Rave" ]
 
@@ -54,7 +56,6 @@ slides =
       SB.align SB.center $ SB.p $ "Query-based operations"
 
       return ()
-
  ]
 
 dig :: Diagram B R2
@@ -131,7 +132,7 @@ cmpBenchmarks :: FilePath -> [String] -> Slide (Tile ())
 cmpBenchmarks cacheName tests = do
     res <- liftIO $ importResults
 
-    liftIO $ print res
+--    liftIO $ print res
 
     denv <- liftIO $ defaultEnv bitmapAlignmentFns (800/1) (500/1)
 
@@ -146,7 +147,7 @@ cmpBenchmarks cacheName tests = do
           | t <- tests
           ]
 
-    liftIO $ print theData
+    --liftIO $ print theData
     {-
           [1,1.69,2.36,3.58,15.47]
           ,[1,1.31,2.84,1.49,5.22]
@@ -158,5 +159,6 @@ cmpBenchmarks cacheName tests = do
     -}
     let barTitles = ["Control"] ++ subTests
 
---    SB.cacheTile cacheName
-    return $ SB.box SB.defaultBoxStyle $ renderableToTile denv $ chart theData barTitles tests
+    SB.cacheTile cacheName $
+--    return $
+      SB.box SB.defaultBoxStyle $ renderableToTile denv $ chart theData barTitles tests

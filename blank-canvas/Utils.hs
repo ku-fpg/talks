@@ -39,7 +39,7 @@ fullSlide slide = font "Gill Sans" $ do
   let pg = prose $ show $ theSlideNumber $ ss
   let lastPg = prose $ show $ theLastSlide $ ss
   t <- tileOfSlide (200,20) $ fontSize 10 $ p
-     $ " \xa9" <> "2014 Andrew Gill," <+> pg <> "/" <> lastPg
+     $ " " <> pg <> "/" <> lastPg
   place bottom $ point bottom left $ t
   margin 20 $ fontSize 20 $ slide
 
@@ -179,3 +179,18 @@ twobox lhs txt rhs = do
           ]
       ]
   vspace 10
+
+-- Bring displace
+cavityWidth :: Double -> Slide ()
+cavityWidth n = do
+  (w,_) <- getCavitySize
+  if w > n then do
+    place left (blank ((w-n)/2,0))
+    place right (blank ((w-n)/2,0))
+  else return ()
+
+
+vga :: a -> a -> Slide a
+vga big small = do
+  (w,_) <- getCavitySize
+  return $ if w > 1024 then big else small
