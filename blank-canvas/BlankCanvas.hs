@@ -272,7 +272,15 @@ slides =
 
           vspace 10
 
-          p $ "See: The Constrained-Monad Problem, ICFP'13, Sculthorpe, et. al. for details."
+          p $ "See" <+> quote "The Constrained-Monad Problem," <+> "ICFP'13, Sculthorpe, et. al.," <+>
+            "or" <+> quote "Simple and Compositional Reification of Monadic Embedded Languages," <+>
+                "ICFP'13, Svenningsson and Svensson, for details."
+
+
+          vspace 10
+
+          p $ "Interesting design choices here; see Sunroof for another choice"
+
 
         s2 = do
           t1 <- scaledImageTile "blank-canvas/images/MonadNormalForm.png" 0.8
@@ -291,6 +299,22 @@ slides =
     txt <- liftIO $ readFile "blank-canvas/examples/InsideSend.hs"
     codeBox hs $ lines $ txt
 
+
+ , title "Design Principles" $ fontSize 32 $ do
+
+    p $ "The packet principles are:"
+    ul $ do
+      li $ "Where possible, everything in a" <+> q"send" <> "-packet should be sent to be executed together."
+      li $ "The breaks between packets should be deterministic and statically and/or syntactically determinable."
+      li $ "Packets are not combined between different calls to" <+> q "send" <> "."
+
+    vspace 10
+
+    p $ "The command principles are:"
+    ul $ do
+      li "Anything that returns () is asynchronous, and may be combined with the next monadic command, or sent instantly."
+      li "Anything that does not return () is synchronous, and requires a round-trip to the server. "
+
  , title ("Semantics of" <+> q "send") $ fontSize 28 $ do
 
     p $ "First Law: (1)"
@@ -302,7 +326,7 @@ slides =
     vspace 10
 
     ul $ do
-      li $ "a" <+> q "send" <+> "has no effect except the remote commands"
+      li $ "A" <+> q "send" <+> "has no effect except the remote commands"
 
     vspace 25
 
@@ -315,7 +339,7 @@ slides =
 
     ul $ do
       li $ "Remote commands preserve ordering"
-      li $ "Remove commands can be split and joined into different sized packets"
+      li $ "Remote commands can be split and joined into different sized packets"
       li $ b "There is a pre-condition of non-interference"
 
     vspace 10
@@ -325,44 +349,6 @@ slides =
 
     return ()
 
- , title "Design Principles" $ fontSize 32 $ do
 
-    p $ "The packet principles are:"
-    ul $ do
-      li $ "Where possible, everything in a" <+> q"send" <> "-packet should be sent to be executed together."
-      li $ "The breaks between packets should be deterministic and statically and/or syntactically determinable"
-      li $ "Packets are not combined between different calls to" <+> q "send."
-
-    vspace 10
-
-    p $ "The command principles are:"
-    ul $ do
-      li "Anything that returns () is asynchronous, and may be combined with the next monadic command, or sent instantly."
-      li "Anything that does not return () is synchronous, and requires a round-trip to the server. "
-
-
- , title "Conclusions" $ fontSize 32 $ do
-
-    p $ "We have constructed a fully featured API bridge to the HTML canvas"
-
-    vspace 10
-
-    p $ "The API is fast enough for teaching, and casual games, and slide presentations"
-
-    vspace 10
-
-    p $ "Round-trip commands should be avoided where possible"
-
-    vspace 10
-
-    p $ "This API design is possible because of monad reification"
-
-    vspace 10
-
-    p $ "There are some interesting semantic issues to be elaborated for" <+> q "send"
-
-    vspace 15
-
-    align center $ fontSize 40 $ p $ q "cabal install blank-canvas"
 
  ]
