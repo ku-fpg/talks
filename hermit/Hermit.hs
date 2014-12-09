@@ -479,9 +479,7 @@ slides =
               , "{-# NOINLINE absb #-}"
               , "absb :: Set Pos -> [Pos]"
               , "absb = toList"
-              ]
-   let s2 = fontSize 18 $ codeBox hs $
-              [ "-- repB and absB change the entire Board structure"
+              , "-- repB and absB change the entire Board structure"
               , "{-# NOINLINE repB #-}"
               , "repB :: Board -> Board'"
               , "repB b = LifeBoard (config b) $ repb (board b)"
@@ -489,6 +487,13 @@ slides =
               , "{-# NOINLINE absB #-}"
               , "absB :: Board' -> Board"
               , "absB b = LifeBoard (config b) $ absb (board b)"
+              ]
+   let s2 = fontSize 18 $ codeBox hs $
+              [ "repxBB :: (a -> Board -> Board) -> a -> Board' -> Board'"
+              , "repxBB f x = repB . (f x) . absB"
+              , ""
+              , "absxBB :: (a -> Board' -> Board') -> a -> Board -> Board"
+              , "absxBB f x = absB . (f x) . repB"
               , ""
               , "repBx :: (Board -> a) -> Board' -> a"
               , "repBx f = f . absB"
@@ -531,5 +536,49 @@ slides =
 
    vspace 30
    p $ "Can we translate to more novel structures?"
+ , title "Accelerate" $ fontSize 32 $ do
 
+   p $ "Accelerate is a library for translating a subset of Haskell for GPGPUs."
+
+   ul $ li $ "Critical type is" <+> q"Acc" <> ", which represents a computation on the CPU."
+   
+    
+   fontSize 20 $ codeBox hs $  
+      [ "data Board = LifeBoard Config [Pos]"
+      , "data Board' = LifeBoard Config (Acc (Array DIM2 Int))"
+      ]
+
+   ul $ li $ "Ongoing work."
+   ul $ li $ "with this transformation, we can write in non-idiomatic Haskell, and manage to run the result on a GPU."
+
+   fontSize 20 $ codeBox hs $  
+      [ "run :: Arrays a => Acc a -> a                                                                            "
+      , "run1 :: (Arrays a, Arrays b) => (Acc a -> Acc b) -> a -> b                                               "
+      , "stream :: (Arrays a, Arrays b) => (Acc a -> Acc b) -> [a] -> [b]                                         "
+      ]
+       
+ , title "Conclusions" $ fontSize 32 $ do
+
+           p $ "Worker/wrapper is a general and systematic approach to transforming a computation of one type into an equivalent computation of another type."
+
+           vspace 10
+
+           p $ "We have used worker/wrapper and HERMIT to translate between different representations of a Game of Life board."
+
+           vspace 10
+
+           p $ "The process was tedious, but the same pattern was used again and again"
+
+           vspace 10
+
+           p $ "Next steps:"
+
+           vspace 10
+
+           ul $ li $ "More powerful abstractions for worker/wrapper and abs/rep generation"
+           ul $ li $ "Mapping to the GPU."
+
+           vspace 20
+
+           align center $ fontSize 40 $ p $ q "cabal install hermit"
  ]

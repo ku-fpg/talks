@@ -19,16 +19,21 @@ cavitySizeSlide = do
 
 title :: Prose -> Slide () -> Slide ()
 title txt slide = font "Avenir" $ do
+  (x,y) <- getCavitySize
   lg <- ku_blue
-  background lg
+  background lg 
     $ shadows False
     $ borderWidth 0
-    $ frame
-    $ scaleFont 2
-    $ align center
-    $ color "white"
-    $ p
-    $ txt
+    $ frame $ do
+            when (y == 1024) $ vspace 18
+            scaleFont 2
+                    $ align center
+                    $ color "white"
+                    $ p
+                    $ txt
+            when (y == 1024) $ vspace 18
+
+  when (y == 1024) $ vspace 12
   fullSlide slide
 
 fullSlide :: Slide () -> Slide ()

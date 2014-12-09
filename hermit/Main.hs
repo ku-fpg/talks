@@ -35,30 +35,6 @@ slides =
           ++ Hermit.slides
 --          ++ Benchmarks.slides
           ++
-        [ title "Conclusions" $ fontSize 32 $ do
-
-           p $ "We have constructed a fully featured API bridge to the HTML canvas"
-
-           vspace 10
-
-           p $ "The API is fast enough for teaching, and casual games, and slide presentations"
-
-           vspace 10
-
-           p $ "Round-trip commands should be avoided where possible"
-
-           vspace 10
-
-           p $ "This API design depends on monad reification"
-
-           vspace 10
-
-           p $ "There are some interesting semantic issues to be elaborated for" <+> q "send"
-
-           vspace 15
-
-           align center $ fontSize 40 $ p $ q "cabal install blank-canvas"
-
-        ]
+        [ ]
      )
     ]
