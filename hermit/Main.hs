@@ -7,7 +7,7 @@ import System.Environment
 import Graphics.Storyboard
 
 import Utils
---import qualified Benchmarks
+import qualified Hermit
 --import qualified BlankCanvas
 
 main :: IO ()
@@ -28,11 +28,11 @@ slides =
     [("wg21",[Utils.titleSlide $ TitleSlideEnv
    			{ titleTitle    = fontSize 50 $ "Worker/Wrapper for a Better Life"
 			, titleSubTitle = fontSize 36 $ "Using HERMIT to transform Haskell programs in a post-hoc manner"
-			, titleAuthors  = b "Andrew Gill" <> ", Brad Torrence, Mike Stees and Andrew Farmer"
+			, titleAuthors  = b "Andrew Gill" <> ",  and Andrew Farmer, Mike Stees and Brad Torrence"
 			, titleDate     = "December 9" <> super "th" <+> "2014"
 			}
         ]
---          ++ BlankCanvas.slides
+          ++ Hermit.slides
 --          ++ Benchmarks.slides
           ++
         [ title "Conclusions" $ fontSize 32 $ do

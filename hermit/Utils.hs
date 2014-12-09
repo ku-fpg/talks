@@ -18,7 +18,7 @@ cavitySizeSlide = do
   margin 20 $ fontSize 50 $ p $ prose $ (show sz)
 
 title :: Prose -> Slide () -> Slide ()
-title txt slide = font "Gill Sans" $ do
+title txt slide = font "Avenir" $ do
   lg <- ku_blue
   background lg
     $ shadows False
@@ -32,7 +32,7 @@ title txt slide = font "Gill Sans" $ do
   fullSlide slide
 
 fullSlide :: Slide () -> Slide ()
-fullSlide slide = font "Gill Sans" $ do
+fullSlide slide = font "Avenir" $ do
   img <- imageTile "images/brand/KUlogo1C.png"
   place right $ pack $ anchor bottom $ point bottom right $ img
   ss <- askSlideStyle
@@ -75,6 +75,9 @@ leftarrow = "\x2190"
 
 pi :: Prose
 pi = "\x3c0"
+
+mu :: Prose
+mu = "\x3bc"
 
 lambda :: Prose
 lambda = "\x3bb"
@@ -146,10 +149,12 @@ codeBox cb txt = do
 codeBox' :: CodeBox -> Prose -> [String] -> Slide ()
 codeBox' cb t txt = do
   lg <- cb_bg cb
+  lg' <- ku_blue
+
   vspace 10
   font "Courier New" $ trueSpace $ table
-      [ tr [ background lg $ td $ b $ margin 5 $ p $ t]
-      , tr [ td $ margin 5
+      [ tr [ background lg' $ td $ color "white" $ b $ margin 5 $ p $ t]
+      , tr [ background lg $ td $ margin 5
                 $ p
                 $ highlight (cb_highlight cb)
                 $ unlines
@@ -194,3 +199,6 @@ vga :: a -> a -> Slide a
 vga big small = do
   (w,_) <- getCavitySize
   return $ if w > 1024 then big else small
+
+h2 :: Prose -> Slide ()
+h2 = p . big . b

@@ -1,0 +1,4 @@
+binding-of 'fib
+remember "myfib"
+any-call (unfold-remembered "myfib")
+
